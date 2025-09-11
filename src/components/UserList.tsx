@@ -36,7 +36,7 @@ const userFilters = [
     source="email_validated"
     label="Email Validated"
     key="email_validated"
-  />
+  />,
 ];
 
 const UserRowButton = () => {

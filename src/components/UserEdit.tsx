@@ -38,8 +38,7 @@ export const UserEdit = () => {
           <Button
             startIcon={<ArrowBackIcon />}
             onClick={() => navigate(-1)}
-          >
-          </Button>
+          ></Button>
           <h1 className="text-2xl font-semibold text-center flex-1">
             Edit User
           </h1>
