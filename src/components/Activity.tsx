@@ -15,6 +15,7 @@ import {
   required,
   TextInput,
   SimpleForm,
+  NumberField,
 } from "react-admin";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -31,10 +32,12 @@ const activityFilters = [
     label="Category"
     choices={[
       { id: "SOCIAL", name: "Social" },
+      { id: "CREATIVE", name: "Creative" },
       { id: "SPORT", name: "Sport" },
-      { id: "WORK", name: "Work" },
-      { id: "STUDY", name: "Study" },
-      { id: "OTHERS", name: "Others" },
+      { id: "OUTDOOR", name: "Outdoor" },
+      { id: "INDOOR", name: "Indoor" },
+      { id: "GAME", name: "Game" },
+      { id: "WELLNESS", name: "Wellness" },
     ]}
     alwaysOn
     key="search-category"
@@ -120,6 +123,10 @@ export const ActivityList = () => (
       <TextField source="name" sortable className="font-medium" />
       <TextField source="icon" sortable />
       <TextField source="category" sortable />
+      <NumberField source="group_count" label="Groups" />
+      <NumberField source="partial_match_count" label="Partial Matches" />
+      <NumberField source="request_count" label="Requests" />
+      <NumberField source="user_count" label="Users" />
       <DateField source="created_at" sortable showTime />
       <EditButton />
     </Datagrid>
