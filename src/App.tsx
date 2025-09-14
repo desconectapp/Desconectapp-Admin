@@ -1,10 +1,13 @@
 import { Admin, Resource, bwLightTheme } from "react-admin";
-import { UserList } from "./components/UserList";
-import { UserEdit } from "./components/UserEdit";
+
+import { UserList, UserEdit } from "./components/User";
+import { ActivityList, ActivityEdit } from "./components/Activity";
+
 import { LoginPage } from "./components/LoginPage";
 import authProvider from "./lib/authProvider";
 
 import UserIcon from "@mui/icons-material/People";
+import LocalActivity from "@mui/icons-material/LocalActivity"
 import jsonServerProvider from "ra-data-json-server";
 import httpClient from "./lib/httpClient";
 
@@ -27,6 +30,13 @@ function App() {
           edit={UserEdit}
           icon={UserIcon}
           options={{ label: "Users" }}
+        />
+        <Resource
+          name="activities"
+          list={ActivityList}
+          edit={ActivityEdit}
+          icon={LocalActivity}
+          options={{ label: "Activities" }}
         />
       </Admin>
     </div>
