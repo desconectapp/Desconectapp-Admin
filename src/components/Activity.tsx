@@ -119,14 +119,14 @@ export const ActivityList = () => (
         },
       }}
     >
-      <TextField source="id" sortable />
+      <TextField source="id" sortable={false} />
       <TextField source="name" sortable className="font-medium" />
-      <TextField source="icon" sortable />
+      <TextField source="icon" sortable={false} />
       <TextField source="category" sortable />
+      <NumberField source="user_count" label="Users" />
       <NumberField source="group_count" label="Groups" />
       <NumberField source="partial_match_count" label="Partial Matches" />
       <NumberField source="request_count" label="Requests" />
-      <NumberField source="user_count" label="Users" />
       <DateField source="created_at" sortable showTime />
       <EditButton />
     </Datagrid>

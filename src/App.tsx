@@ -2,12 +2,15 @@ import { Admin, Resource, bwLightTheme } from "react-admin";
 
 import { UserList, UserEdit } from "./components/User";
 import { ActivityList, ActivityEdit } from "./components/Activity";
+import { GroupCreate, GroupList } from "./components/Group";
 
 import { LoginPage } from "./components/LoginPage";
 import authProvider from "./lib/authProvider";
 
-import UserIcon from "@mui/icons-material/People";
-import LocalActivity from "@mui/icons-material/LocalActivity"
+import PersonIcon from '@mui/icons-material/Person';
+import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
+import GroupsIcon from '@mui/icons-material/Groups';
+
 import jsonServerProvider from "ra-data-json-server";
 import httpClient from "./lib/httpClient";
 
@@ -28,16 +31,24 @@ function App() {
           name="users"
           list={UserList}
           edit={UserEdit}
-          icon={UserIcon}
+          icon={PersonIcon}
           options={{ label: "Users" }}
         />
         <Resource
           name="activities"
           list={ActivityList}
           edit={ActivityEdit}
-          icon={LocalActivity}
+          icon={SportsSoccerIcon}
           options={{ label: "Activities" }}
         />
+
+        <Resource
+          name="groups"
+          list={GroupList}
+          create={GroupCreate}
+          icon={GroupsIcon}
+          options={{ label: "Groups" }}
+        /> 
       </Admin>
     </div>
   );
