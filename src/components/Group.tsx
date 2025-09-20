@@ -58,7 +58,7 @@ export const GroupCreate = () => {
           if (userIds.length > 0 && created?.id) {
             await Promise.all(
               userIds.map((uid) =>
-                fetch(`${HOST}/admin/groups/${created.id}/members`, {
+                fetch(`${HOST}/groups/${created.id}/members`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   credentials: "include",
@@ -108,21 +108,22 @@ export const GroupCreate = () => {
           source="activity_id"
           reference="activities"
           label="Activity"
-          sort={{ field: "name", order: "ASC" }}
-          // your backend's search param for activities
+          sort={{ field: "id", order: "ASC" }}
           filterToQuery={(search: string) => ({ name: search })}
           perPage={25}
         >
-          <AutocompleteInput optionText="name" optionValue="id" fullWidth validate={[required()]} />
+          <AutocompleteInput
+            optionText={(u: any) => `${u?.icon} ${u?.name}`}
+            optionValue="id"
+            fullWidth
+            validate={[required()]}
+          />
         </ReferenceInput>
 
         <ReferenceArrayInput
           source="user_ids"
           reference="users"
           label="Members"
-          sort={{ field: "name", order: "ASC" }}
-          // users search (you used SearchInput source="q" elsewhere)
-          filterToQuery={(search: string) => ({ q: search })}
           perPage={50}
         >
           <AutocompleteArrayInput
