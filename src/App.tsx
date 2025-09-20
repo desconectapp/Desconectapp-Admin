@@ -1,4 +1,5 @@
-import { Admin, Resource, bwLightTheme } from "react-admin";
+import { Admin, Resource, bwLightTheme, CustomRoutes } from "react-admin";
+import { Route } from "react-router-dom";
 
 import { UserList, UserEdit } from "./components/User";
 import { ActivityList, ActivityEdit } from "./components/Activity";

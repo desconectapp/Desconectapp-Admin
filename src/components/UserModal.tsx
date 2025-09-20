@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNotify, useRefresh } from "react-admin";
 
+const BASE_URL = "http://localhost:8080/admin";
+
 interface User {
   id: number;
   name: string;
@@ -23,15 +25,28 @@ export const UserModal = ({ user, open, onClose }: UserModalProps) => {
 
   if (!open) return null;
 
+  // admin.GET("/users/:id/password/reset", router.authController.ForgotPassword)
+  // admin.GET("/users/:id/email/verify", router.authController.ValidateEmail)
+
   const handleAction = async (action: string) => {
     setLoading(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
     switch (action) {
       case "validate":
-        notify(`Email validated for ${user.name}`, { type: "success" });
+        fetch(`${BASE_URL}/users/email/verify?user_id=${user.id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        }).then((response) => {
+          if (response.ok) {
+            notify(`Email validation sent to ${user.email}`, { type: "success" });
+          }
+        })
+          .catch(() => {
+            notify("Error sending email validation", { type: "error" });
+          });
+
         break;
       case "suspend":
         notify(`User ${user.name} suspended`, { type: "warning" });
@@ -40,7 +55,22 @@ export const UserModal = ({ user, open, onClose }: UserModalProps) => {
         notify(`User ${user.name} deleted`, { type: "info" });
         break;
       case "reset":
-        notify(`Password reset sent to ${user.email}`, { type: "success" });
+
+        fetch(`${BASE_URL}/users/password/reset`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: user.email }),
+        }).then((response) => {
+          if (response.ok) {
+            notify(`Password reset sent to ${user.email}`, { type: "success" });
+          }
+        })
+          .catch(() => {
+            notify("Error sending password reset", { type: "error" });
+          });
+
         break;
     }
 
