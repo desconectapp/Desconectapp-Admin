@@ -2,7 +2,7 @@ import { Admin, Resource, bwLightTheme } from "react-admin";
 
 import { UserList, UserEdit } from "./components/User";
 import { ActivityList, ActivityEdit } from "./components/Activity";
-import { GroupCreate, GroupList } from "./components/Group";
+import { GroupCreate, GroupEdit, GroupList } from "./components/Group";
 
 import { LoginPage } from "./components/LoginPage";
 import authProvider from "./lib/authProvider";
@@ -41,14 +41,14 @@ function App() {
           icon={SportsSoccerIcon}
           options={{ label: "Activities" }}
         />
-
         <Resource
           name="groups"
           list={GroupList}
+          edit={GroupEdit}
           create={GroupCreate}
           icon={GroupsIcon}
           options={{ label: "Groups" }}
-        /> 
+        />
       </Admin>
     </div>
   );

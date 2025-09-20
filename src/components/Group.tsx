@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { List, Datagrid, TextField, NumberField, Button, useRecordContext, SimpleForm, Create, Toolbar, SaveButton, TextInput, required, ReferenceInput, AutocompleteInput, useNotify, useRedirect, ReferenceArrayInput, AutocompleteArrayInput } from "react-admin";
+import { List, Datagrid, TextField, NumberField, Button, useRecordContext, SimpleForm, Create, Toolbar, SaveButton, TextInput, required, ReferenceInput, AutocompleteInput, useNotify, useRedirect, ReferenceArrayInput, AutocompleteArrayInput, EditButton, Edit } from "react-admin";
 import { Dialog, DialogTitle, DialogContent, Divider, Typography, DialogActions } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -22,11 +22,12 @@ const GroupRowButton = () => {
 
 export const GroupList = () => (
   <List>
-    <Datagrid>
+    <Datagrid rowClick={false}>
       <TextField source="name" />
       <TextField source="description" />
       <NumberField source="member_count" />
       <GroupRowButton />
+      <EditButton />
     </Datagrid>
   </List>
 );
@@ -289,5 +290,70 @@ export const GroupMembersModal = ({
         </Button>
       </DialogActions>
     </Dialog>
+  );
+};
+
+
+export const GroupEdit = () => {
+  const navigate = useNavigate();
+  const notify = useNotify();
+  const redirect = useRedirect();
+
+  return (
+    <Edit
+      transform={(data: any) => ({
+        ...data,
+        activity_id: Number(data.activity_id),
+      })}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        mt: 4,
+      }}
+    >
+      <SimpleForm
+        toolbar={<GroupCreateToolbar onCancel={() => navigate(-1)} />}
+        sx={{
+          minWidth: 300,
+          width: 600,
+          backgroundColor: "background.paper",
+          p: 4,
+          borderRadius: 2,
+          boxShadow: 3,
+          "& .MuiFormControl-root": { mb: 2 },
+        }}
+      >
+
+        <Button
+          startIcon={<ArrowBackIcon />}
+          onClick={() => navigate(-1)}
+        ></Button>
+        <TextInput
+          source="name"
+          label="Group Name"
+          validate={[required()]}
+          fullWidth
+        />
+        <TextInput source="description" label="Description" multiline minRows={3} fullWidth />
+        <TextInput source="location" label="Location" fullWidth />
+
+        <ReferenceInput
+          source="activity_id"
+          reference="activities"
+          label="Activity"
+          sort={{ field: "id", order: "ASC" }}
+          filterToQuery={(search: string) => ({ name: search })}
+          perPage={25}
+        >
+          <AutocompleteInput
+            optionText={(u: any) => `${u?.icon} ${u?.name}`}
+            optionValue="id"
+            fullWidth
+            validate={[required()]}
+          />
+        </ReferenceInput>
+      </SimpleForm>
+    </Edit>
   );
 };
