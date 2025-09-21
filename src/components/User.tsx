@@ -20,6 +20,7 @@ import {
   NumberInput,
   required,
   email,
+  Create,
 } from "react-admin";
 import { useState } from "react";
 import { UserModal } from "./UserModal";
@@ -114,6 +115,15 @@ export const UserList = () => (
           "& .RaBooleanField-false": { color: "var(--color-destructive)" },
         }}
       />
+      <BooleanField
+        source="is_suspended"
+        sortable
+        label="suspended"
+        sx={{
+          "& .RaBooleanField-true": { color: "var(--color-chart-2)" },
+          "& .RaBooleanField-false": { color: "var(--color-destructive)" },
+        }}
+        />
       <TextField source="city" sortable />
       <UserRowButton />
       <EditButton />
@@ -132,6 +142,7 @@ export const UserEdit = () => {
         alignItems: "flex-start",
         mt: 4,
       }}
+      mutationOptions={{ onSuccess: () => navigate(-1) }}
     >
       <SimpleForm
         sx={{
@@ -161,5 +172,52 @@ export const UserEdit = () => {
         <TextInput source="city" validate={[required()]} fullWidth />
       </SimpleForm>
     </Edit>
+  );
+};
+
+
+export const UserCreate = () => {
+  const navigate = useNavigate();
+
+  return (
+    <Create
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        mt: 4,
+      }}
+      mutationOptions={{ onSuccess: () => navigate(-1) }}
+    >
+      <SimpleForm
+        sx={{
+          minWidth: 300,
+          width: 600,
+          backgroundColor: "background.paper",
+          p: 4,
+          borderRadius: 2,
+          boxShadow: 3,
+          "& .MuiFormControl-root": { mb: 2 },
+        }}
+        defaultValues={{ is_admin: false }}
+      >
+        <div className="flex items-center justify-between mb-6 gap-2">
+          <Button
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate(-1)}
+          ></Button>
+          <h1 className="text-2xl font-semibold text-center flex-1">
+            Create User
+          </h1>
+        </div>
+
+        <TextInput source="name" validate={[required()]} fullWidth />
+        <TextInput source="email" validate={[required(), email()]} fullWidth />
+        <TextInput type="password" source="password" validate={[required()]} fullWidth />
+        <BooleanInput source="is_admin" label="Is Admin" />
+        <NumberInput source="age" validate={[required()]} fullWidth />
+        <TextInput source="city" validate={[required()]} fullWidth />
+      </SimpleForm>
+    </Create>
   );
 };

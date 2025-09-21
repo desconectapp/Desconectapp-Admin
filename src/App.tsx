@@ -1,7 +1,7 @@
 import { Admin, Resource, bwLightTheme, CustomRoutes } from "react-admin";
 import { Route } from "react-router-dom";
 
-import { UserList, UserEdit } from "./components/User";
+import { UserList, UserEdit, UserCreate } from "./components/User";
 import { ActivityList, ActivityEdit } from "./components/Activity";
 import { GroupCreate, GroupEdit, GroupList } from "./components/Group";
 
@@ -32,6 +32,7 @@ function App() {
           name="users"
           list={UserList}
           edit={UserEdit}
+          create={UserCreate}
           icon={PersonIcon}
           options={{ label: "Users" }}
         />

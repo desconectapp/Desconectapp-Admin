@@ -10,6 +10,7 @@ interface User {
   age: number;
   email_validated: boolean;
   city: string;
+  is_suspended: boolean;
 }
 
 interface UserModalProps {
@@ -25,9 +26,6 @@ export const UserModal = ({ user, open, onClose }: UserModalProps) => {
 
   if (!open) return null;
 
-  // admin.GET("/users/:id/password/reset", router.authController.ForgotPassword)
-  // admin.GET("/users/:id/email/verify", router.authController.ValidateEmail)
-
   const handleAction = async (action: string) => {
     setLoading(true);
 
@@ -35,6 +33,7 @@ export const UserModal = ({ user, open, onClose }: UserModalProps) => {
       case "validate":
         fetch(`${BASE_URL}/users/email/verify?user_id=${user.id}`, {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           }
@@ -49,10 +48,36 @@ export const UserModal = ({ user, open, onClose }: UserModalProps) => {
 
         break;
       case "suspend":
-        notify(`User ${user.name} suspended`, { type: "warning" });
+        fetch(`${BASE_URL}/users/${user.id}/suspend`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        }).then((response) => {
+          if (response.ok) {
+            notify(`User ${user.name} suspended`, { type: "warning" });
+          }
+        })
+          .catch(() => {
+            notify("Error suspending user", { type: "error" });
+          });
         break;
-      case "delete":
-        notify(`User ${user.name} deleted`, { type: "info" });
+      case "unsuspend":
+        fetch(`${BASE_URL}/users/${user.id}/unsuspend`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          }
+        }).then((response) => {
+          if (response.ok) {
+            notify(`User ${user.name} suspended`, { type: "warning" });
+          }
+        })
+          .catch(() => {
+            notify("Error suspending user", { type: "error" });
+          });
         break;
       case "reset":
 
@@ -131,7 +156,7 @@ export const UserModal = ({ user, open, onClose }: UserModalProps) => {
               disabled={loading}
               className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md disabled:opacity-50 transition-colors"
             >
-              {loading ? "Processing..." : "Validate Email"}
+              {loading ? "Processing..." : "Send validation email"}
             </button>
           )}
 
@@ -144,19 +169,11 @@ export const UserModal = ({ user, open, onClose }: UserModalProps) => {
           </button>
 
           <button
-            onClick={() => handleAction("suspend")}
+            onClick={() => handleAction(user.is_suspended ? "unsuspend" : "suspend")}
             disabled={loading}
             className="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-2 px-4 rounded-md disabled:opacity-50 transition-colors"
           >
-            {loading ? "Processing..." : "Suspend User"}
-          </button>
-
-          <button
-            onClick={() => handleAction("delete")}
-            disabled={loading}
-            className="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md disabled:opacity-50 transition-colors"
-          >
-            {loading ? "Processing..." : "Delete User"}
+            {loading ? "Processing..." : user.is_suspended ? "Unsuspend user" : "Suspend user"}
           </button>
         </div>
       </div>
