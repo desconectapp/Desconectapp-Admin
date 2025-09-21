@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNotify, useRefresh } from "react-admin";
-
-const BASE_URL = "http://localhost:8080/admin";
+import { BASE_API_URL } from "../constants";
 
 interface User {
   id: number;
@@ -31,7 +30,7 @@ export const UserModal = ({ user, open, onClose }: UserModalProps) => {
 
     switch (action) {
       case "validate":
-        fetch(`${BASE_URL}/users/email/verify?user_id=${user.id}`, {
+        fetch(`${BASE_API_URL}/admin/users/email/verify?user_id=${user.id}`, {
           method: "POST",
           credentials: "include",
           headers: {

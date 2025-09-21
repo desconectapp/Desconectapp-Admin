@@ -3,8 +3,7 @@ import { List, Datagrid, TextField, NumberField, Button, useRecordContext, Simpl
 import { Dialog, DialogTitle, DialogContent, Divider, Typography, DialogActions } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
-const HOST = "http://localhost:8080/admin";
+import { BASE_API_URL } from "../constants";
 
 const GroupRowButton = () => {
   const record = useRecordContext();
@@ -59,7 +58,7 @@ export const GroupCreate = () => {
           if (userIds.length > 0 && created?.id) {
             await Promise.all(
               userIds.map((uid) =>
-                fetch(`${HOST}/groups/${created.id}/members`, {
+                fetch(`${BASE_API_URL}/admin/groups/${created.id}/members`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   credentials: "include",

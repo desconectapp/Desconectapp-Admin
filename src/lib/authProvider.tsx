@@ -1,6 +1,8 @@
+import { BASE_API_URL } from "../constants";
+
 const authProvider = {
   login: async ({ email, password }: { email: string; password: string }) => {
-    const response = await fetch("http://localhost:8080/auth/login", {
+    const response = await fetch(`${BASE_API_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -14,14 +16,14 @@ const authProvider = {
   },
 
   logout: async () => {
-    await fetch("http://localhost:8080/admin/logout", {
+    await fetch(`${BASE_API_URL}/admin/logout`, {
       method: "POST",
       credentials: "include",
     });
   },
 
   checkAuth: async () => {
-    const response = await fetch("http://localhost:8080/admin/me", {
+    const response = await fetch(`${BASE_API_URL}/admin/me`, {
       credentials: "include",
     });
     if (response.status === 200) return Promise.resolve();

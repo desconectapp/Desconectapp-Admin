@@ -14,6 +14,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 
 import jsonServerProvider from "ra-data-json-server";
 import httpClient from "./lib/httpClient";
+import { BASE_API_URL } from "./constants";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
       <Admin
         theme={bwLightTheme}
         dataProvider={jsonServerProvider(
-          "http://localhost:8080/admin",
+          `${BASE_API_URL}/admin`,
           httpClient,
         )}
         authProvider={authProvider}
